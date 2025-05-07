@@ -6,6 +6,8 @@ import com.eco.todo.dto.user.*;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +35,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody String entity) {
-        //TODO: process POST request
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody RegisterUserDto registerUserDto) {
         
-        return entity;
+        UserResponseDto userResponse = userService.createUser(registerUserDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        
     }
     
     
