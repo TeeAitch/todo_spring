@@ -3,19 +3,19 @@ package com.eco.todo.service;
 import com.eco.todo.model.todoitem.*;
 import com.eco.todo.repository.TodoItemRepository;
 
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class TodoItemService {
 
-    TodoItemRepository todoItemrepository;
+    private final TodoItemRepository todoItemrepository;
 
-    public TodoItemService(TodoItemRepository repository){
-        this.todoItemrepository = repository;
-    }
     public List<TodoItem> getAllItem(){
         return todoItemrepository.findAll();
     }

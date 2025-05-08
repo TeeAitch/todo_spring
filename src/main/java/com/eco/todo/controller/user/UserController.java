@@ -1,8 +1,14 @@
 package com.eco.todo.controller.user;
 
 import com.eco.todo.service.user.UserService;
+
+import lombok.AllArgsConstructor;
+
 import com.eco.todo.model.user.*;
+import com.eco.todo.repository.user.UserRepository;
 import com.eco.todo.dto.user.*;
+import com.eco.todo.mapper.user.RegisterUserMapper;
+import com.eco.todo.mapper.user.UserMapper;
 
 import java.util.List;
 
@@ -11,6 +17,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
     
     private final UserService userService;
-
-    public UserController(UserService userService){
-        this.userService = userService;
-        
-    }
+    private final UserRepository userRepository;
+    private final RegisterUserMapper registerUserMapper;
+    private final UserMapper userMapper;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -35,13 +41,20 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody RegisterUserDto registerUserDto) {
-        
-        UserResponseDto userResponse = userService.createUser(registerUserDto);
+    public ResponseEntity<UserResponseDto> createUser(
+        RegisterUserDto registerUserDto,
+        UriComponentsBuilder uriBuilder
+        ){
+        User user = registerUserMapper.toEntity(registerUserDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        User savedUser = userRepository.save(user);
+
+        var userDto = userMapper.toDto(savedUser);
+
+        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
         
-    }
+        return ResponseEntity.created(uri).body(userDto);
+    } 
     
     
 }

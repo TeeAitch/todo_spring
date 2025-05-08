@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import com.eco.todo.dto.user.UserResponseDto;
 import com.eco.todo.model.user.*;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     public User toEntity (UserResponseDto dto);
     public UserResponseDto toDto(User user);
