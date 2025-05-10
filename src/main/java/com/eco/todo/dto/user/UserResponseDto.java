@@ -14,4 +14,5 @@ public class UserResponseDto {
     private String password;
     private LocalDate birthday;
     private String email;
+    private String role;
 }

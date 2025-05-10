@@ -7,6 +7,6 @@ import com.eco.todo.model.user.*;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    public User toEntity (UserResponseDto dto);
-    public UserResponseDto toDto(User user);
+    public Users toEntity (UserResponseDto dto);
+    public UserResponseDto toDto(Users user);
 }

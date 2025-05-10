@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,4 +41,5 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    private String role;
 }

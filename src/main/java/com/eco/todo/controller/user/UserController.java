@@ -12,14 +12,11 @@ import com.eco.todo.mapper.user.UserMapper;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -36,7 +33,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<Users> getAllUsers() {
         return userService.findAllUser();
     }
 
@@ -45,9 +42,9 @@ public class UserController {
         RegisterUserDto registerUserDto,
         UriComponentsBuilder uriBuilder
         ){
-        User user = registerUserMapper.toEntity(registerUserDto);
+        Users user = registerUserMapper.toEntity(registerUserDto);
 
-        User savedUser = userRepository.save(user);
+        Users savedUser = userRepository.save(user);
 
         var userDto = userMapper.toDto(savedUser);
 
@@ -55,6 +52,4 @@ public class UserController {
         
         return ResponseEntity.created(uri).body(userDto);
     } 
-    
-    
 }
